@@ -1,78 +1,57 @@
 const initialContacts = [
-    { id: '231255', name: 'فارس محمد عبدالسميع', phone: '01011122233', email: 'fares.m@std.edu', job: 'طالب (231255)', isFavorite: true },
-    { id: '231543', name: 'محمود اسامه سعد محمد', phone: '01122233344', email: 'mahmoud.o@std.edu', job: 'طالب (231543)', isFavorite: false },
-    { id: '222287', name: 'حسن اشرف احمد علي', phone: '01233344455', email: 'hassan.a@std.edu', job: 'طالب (222287)', isFavorite: true },
-    { id: '231446', name: 'محمد كرم حمدي عبد المعبود', phone: '01544455566', email: 'mohamed.k@std.edu', job: 'طالب (231446)', isFavorite: false },
-    { id: '230573', name: 'احمد محمد فؤاد محمود', phone: '01055566677', email: 'ahmed.m@std.edu', job: 'طالب (230573)', isFavorite: false },
-    { id: '001', name: 'الدكتورة مروة عناني', phone: '01001234567', email: 'marwa.e@univ.edu', job: 'مشرف أكاديمي', isFavorite: true },
-    { id: '002', name: 'المهندس علي محمد', phone: '01119876543', email: 'ali.m@univ.edu', job: 'مهندس', isFavorite: false },
-    { id: '003', name: 'خالد مصطفى السيد', phone: '01227654321', email: 'khaled.m@company.com', job: 'مهندس برمجيات', isFavorite: true },
-    { id: '004', name: 'ليلى أحمد حسان', phone: '01556789012', email: 'layla.a@corp.net', job: 'مديرة تسويق', isFavorite: true },
-    { id: '005', name: 'يوسف طارق فوزي', phone: '01098765432', email: 'youssef.t@home.com', job: 'مدرس', isFavorite: false },
-    { id: '006', name: 'سارة إبراهيم علي', phone: '01155544433', email: 'sara.i@mail.net', job: '', isFavorite: false },
+    // 5 طلاب المشروع (المفضلة)
+    { id: '231255', name: 'فارس محمد عبدالسميع', phone: '01011122233', email: 'fares.m@std.edu', job: 'طالب (231255)', isFavorite: true }, 
+    { id: '231543', name: 'محمود اسامه سعد محمد', phone: '01122233344', email: 'mahmoud.o@std.edu', job: 'طالب (231543)', isFavorite: true }, 
+    { id: '222287', name: 'حسن اشرف احمد علي', phone: '01233344455', email: 'hassan.a@std.edu', job: 'طالب (222287)', isFavorite: true }, 
+    { id: '231446', name: 'محمد كرم حمدي عبد المعبود', phone: '01544455566', email: 'mohamed.k@std.edu', job: 'طالب (231446)', isFavorite: true }, 
+    { id: '230573', name: 'احمد محمد فؤاد محمود', phone: '01055566677', email: 'ahmed.m@std.edu', job: 'طالب (230573)', isFavorite: true }, 
+    // 7 جهات اتصال أخرى (ليست مفضلة)
+    { id: '001', name: 'الدكتورة مروة عناني', phone: '01001234567', email: 'marwa.e@univ.edu', job: 'مشرف أكاديمي', isFavorite: false }, 
+    { id: '002', name: 'المهندس علي محمد', phone: '01119876543', email: 'ali.m@univ.edu', job: 'مهندس', isFavorite: false }, 
+    { id: '003', name: 'خالد مصطفى السيد', phone: '01227654321', email: 'khaled.m@company.com', job: 'مهندس برمجيات', isFavorite: false }, 
+    { id: '004', name: 'ليلى أحمد حسان', phone: '01556789012', email: 'layla.a@corp.net', job: 'مديرة تسويق', isFavorite: false }, 
+    { id: '005', name: 'يوسف طارق فوزي', phone: '01098765432', email: 'youssef.t@home.com', job: 'مدرس', isFavorite: false }, 
+    { id: '006', name: 'سارة إبراهيم علي', phone: '01155544433', email: 'sara.i@mail.net', job: '', isFavorite: false }, 
     { id: '007', name: 'عمر جلال محمود', phone: '01288877766', email: 'omar.g@data.org', job: 'محلل بيانات', isFavorite: false },
 ];
 
-
-const form = document.getElementById('contact-form');
-const nameInput = document.getElementById('name');
-const phoneInput = document.getElementById('phone');
-const emailInput = document.getElementById('email'); 
-const jobInput = document.getElementById('job');
-const searchInput = document.getElementById('search-input');
+// ------------------------------------------------
+// تعريف العناصر (بأبسط شكل)
+// ------------------------------------------------
+const $ = id => document.getElementById(id); // دالة مساعدة لتقليل كتابة document.getElementById
+const form = $('contact-form');
+const editForm = $('edit-form');
+const searchInput = $('search-input');
 const navLinks = document.querySelectorAll('nav a');
-const totalCountElement = document.getElementById('total-count');
-const favoriteCountElement = document.getElementById('favorite-count');
-
-// عناصر نموذج التعديل المنفصلة
-const editForm = document.getElementById('edit-form');
-const editNameInput = document.getElementById('edit-name');
-const editPhoneInput = document.getElementById('edit-phone');
-const editEmailInput = document.getElementById('edit-email'); 
-const editJobInput = document.getElementById('edit-job');
-const editContactIdInput = document.getElementById('edit-contact-id');
-
-
 const views = {
-    home: document.getElementById('home-view'),
-    favorites: document.getElementById('favorites-view'),
-    about: document.getElementById('about-view'),
-    help: document.getElementById('help-view'), // صفحة جديدة
-    'edit-view': document.getElementById('edit-view') // صفحة جديدة
+    home: $('home-view'), favorites: $('favorites-view'), about: $('about-view'), 
+    help: $('help-view'), 'edit-view': $('edit-view')
 };
-const contactListHome = document.getElementById('contact-list-home');
-const contactListFavorites = document.getElementById('contact-list-favorites');
+const listHome = $('contact-list-home');
+const listFav = $('contact-list-favorites');
 
 let contacts = []; 
 let currentView = 'home'; 
 
+// ------------------------------------------------
+// وظائف تخزين وبيانات مبسطة
+// ------------------------------------------------
 function getContacts() {
-    const storedContacts = localStorage.getItem('phonebookContacts');
-    return storedContacts ? JSON.parse(storedContacts) : initialContacts;
+    const stored = localStorage.getItem('phonebookContacts');
+    return stored ? JSON.parse(stored) : initialContacts;
 }
 
 function saveContacts() {
     localStorage.setItem('phonebookContacts', JSON.stringify(contacts));
-    updateCounters(); 
-}
-
-function updateCounters() {
-    const total = contacts.length;
-    const favorites = contacts.filter(c => c.isFavorite).length;
-    
-    totalCountElement.textContent = total;
-    favoriteCountElement.textContent = favorites;
+    $('total-count').textContent = contacts.length;
+    $('favorite-count').textContent = contacts.filter(c => c.isFavorite).length;
 }
 
 function showView(viewName) {
     currentView = viewName;
     
-    Object.keys(views).forEach(key => {
-        views[key].classList.add('hidden');
-    });
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-    });
+    Object.keys(views).forEach(key => views[key].classList.add('hidden'));
+    navLinks.forEach(link => link.classList.remove('active'));
 
     if (views[viewName]) {
         views[viewName].classList.remove('hidden');
@@ -80,32 +59,31 @@ function showView(viewName) {
     }
 
     if (viewName === 'home' || viewName === 'favorites') {
-        const searchTerm = (viewName === 'home' && searchInput) ? searchInput.value : '';
-        renderContacts(searchTerm);
+        renderContacts(viewName === 'home' ? searchInput.value : '');
     }
 }
 
+// ------------------------------------------------
+// دالة عرض جهات الاتصال (مبسطة)
+// ------------------------------------------------
 function renderContacts(searchTerm = '') {
     const isFavoritesView = currentView === 'favorites';
-    
+    const targetList = isFavoritesView ? listFav : listHome;
     let displayContacts = isFavoritesView ? contacts.filter(c => c.isFavorite) : contacts;
 
     if (searchTerm && currentView === 'home') {
         const lowerCaseSearchTerm = searchTerm.toLowerCase();
         displayContacts = displayContacts.filter(contact => 
-            contact.name.toLowerCase().includes(lowerCaseSearchTerm) ||
-            contact.phone.includes(lowerCaseSearchTerm) ||
-            (contact.job && contact.job.toLowerCase().includes(lowerCaseSearchTerm)) ||
-            (contact.email && contact.email.toLowerCase().includes(lowerCaseSearchTerm))
+            Object.values(contact).some(val => 
+                (typeof val === 'string' && val.toLowerCase().includes(lowerCaseSearchTerm)) ||
+                (typeof val === 'boolean' && val.toString().includes(lowerCaseSearchTerm))
+            )
         );
     }
     
     const sortedContacts = [...displayContacts].sort((a, b) => b.isFavorite - a.isFavorite);
+    targetList.innerHTML = ''; 
 
-    contactListHome.innerHTML = ''; 
-    contactListFavorites.innerHTML = '';
-    const targetList = isFavoritesView ? contactListFavorites : contactListHome;
-    
     if (sortedContacts.length === 0) {
          targetList.innerHTML = `<li style="justify-content: center; background: #fff; color: #6c757d;">
              ${(currentView === 'home' && searchTerm) ? 'لا توجد نتائج مطابقة للبحث.' : (isFavoritesView ? 'لا توجد جهات اتصال مفضلة حالياً.' : 'لا توجد جهات اتصال حالياً.')}
@@ -114,183 +92,132 @@ function renderContacts(searchTerm = '') {
     }
 
     sortedContacts.forEach(contact => {
-        const listItem = document.createElement('li');
-        listItem.dataset.id = contact.id;
-        
-        if (contact.isFavorite) {
-            listItem.classList.add('favorite');
-        }
-
-        const editButton = (isFavoritesView) ? '' : `<button class="edit-btn" data-action="edit">تعديل</button>`;
+        const li = document.createElement('li');
+        li.dataset.id = contact.id;
+        if (contact.isFavorite) li.classList.add('favorite');
 
         const jobDisplay = contact.job ? `<span style="color: #6c757d; font-size: 0.9em;">(${contact.job})</span>` : '';
         const emailDisplay = contact.email ? `<span style="color: #007bff; font-size: 0.9em; direction: ltr; margin-left: 15px;">📧 ${contact.email}</span>` : '';
+        const editBtnHtml = isFavoritesView ? '' : `<button class="edit-btn" data-action="edit">تعديل</button>`;
 
-        listItem.innerHTML = `
+        li.innerHTML = `
             <div class="contact-info">
                 <strong>${contact.name} ${jobDisplay}</strong> 
                 <div style="display: flex; align-items: center; gap: 5px; font-size: 0.95em;">
-                    📞 ${contact.phone}
-                    ${emailDisplay}
+                    📞 ${contact.phone} ${emailDisplay}
                 </div>
             </div>
             <div class="contact-actions">
-                <button class="favorite-btn ${contact.isFavorite ? 'is-favorite' : ''}" 
-                        data-action="toggle-favorite">
+                <button class="favorite-btn ${contact.isFavorite ? 'is-favorite' : ''}" data-action="toggle-favorite">
                     ${contact.isFavorite ? '⭐️' : 'إضافة مفضلة'}
                 </button>
-                ${editButton}
+                ${editBtnHtml}
                 <button class="delete-btn" data-action="delete" data-view-type="${currentView}">حذف</button>
             </div>
         `;
-        
-        targetList.appendChild(listItem.cloneNode(true));
+        targetList.appendChild(li);
     });
 }
 
-// ---------------------------------------------
-// 1. الإضافة (نموذج صفحة Home)
-// ---------------------------------------------
+// ------------------------------------------------
+// معالجة النماذج والأحداث (مبسطة)
+// ------------------------------------------------
 form.addEventListener('submit', function(e) {
     e.preventDefault(); 
+    const { name, phone, email, job } = form.elements;
 
-    const name = nameInput.value.trim();
-    const phone = phoneInput.value.trim();
-    const email = emailInput.value.trim(); 
-    const job = jobInput.value.trim(); 
-    
-    if (!name || !phone) {
-        alert("يرجى إدخال الاسم ورقم الهاتف.");
-        return;
-    }
+    if (!name.value || !phone.value) return alert("يرجى إدخال الاسم ورقم الهاتف.");
 
-    const newContact = {
+    contacts.push({
         id: Date.now().toString(), 
-        name: name,
-        phone: phone,
-        email: email, 
-        job: job, 
+        name: name.value.trim(),
+        phone: phone.value.trim(),
+        email: email.value.trim(), 
+        job: job.value.trim(), 
         isFavorite: false
-    };
-    contacts.push(newContact); 
+    }); 
     alert('✅ تم إضافة جهة الاتصال بنجاح!'); 
-
     saveContacts(); 
     renderContacts(); 
     form.reset(); 
 });
 
-
-// ---------------------------------------------
-// 2. التعديل (نموذج صفحة Edit المنفصلة)
-// ---------------------------------------------
 editForm.addEventListener('submit', function(e) {
     e.preventDefault(); 
+    const { 'edit-name': name, 'edit-phone': phone, 'edit-email': email, 'edit-job': job, 'edit-contact-id': id } = editForm.elements;
 
-    const name = editNameInput.value.trim();
-    const phone = editPhoneInput.value.trim();
-    const email = editEmailInput.value.trim(); 
-    const job = editJobInput.value.trim(); 
-    const id = editContactIdInput.value;
+    if (!name.value || !phone.value || !id.value) return alert("خطأ: يرجى التأكد من اختيار جهة اتصال.");
 
-    if (!name || !phone || !id) {
-        alert("خطأ: يرجى التأكد من ملء جميع الحقول واختيار جهة اتصال.");
-        return;
-    }
-
-    const contactIndex = contacts.findIndex(c => c.id.toString() === id);
+    const contactIndex = contacts.findIndex(c => c.id.toString() === id.value);
     if (contactIndex > -1) {
-        contacts[contactIndex].name = name;
-        contacts[contactIndex].phone = phone;
-        contacts[contactIndex].email = email; 
-        contacts[contactIndex].job = job; 
+        contacts[contactIndex].name = name.value.trim();
+        contacts[contactIndex].phone = phone.value.trim();
+        contacts[contactIndex].email = email.value.trim(); 
+        contacts[contactIndex].job = job.value.trim(); 
     }
     
     saveContacts(); 
     alert('✅ تم حفظ التعديلات بنجاح!'); 
     editForm.reset();
-    showView('home'); // العودة للقائمة الرئيسية بعد الحفظ
+    showView('home');
 });
 
-
-// ---------------------------------------------
-// 3. الحذف والمفضلة والتعديل (Delegation)
-// ---------------------------------------------
+// --- معالجة الضغط على الأزرار (حذف، تعديل، مفضلة) ---
 document.addEventListener('click', function(e) {
-    const action = e.target.dataset.action;
+    const { action, viewType } = e.target.dataset;
     const listItem = e.target.closest('.contact-list li'); 
     
     if (!action || !listItem) return;
 
     const contactId = listItem.dataset.id; 
+    const contactIndex = contacts.findIndex(c => c.id === contactId);
+    if (contactIndex === -1 && action !== 'edit') return; // لضمان وجود الجهة عند الحذف/المفضلة
 
     if (action === 'delete') {
-        const viewType = e.target.dataset.viewType;
-
         if (viewType === 'favorites') {
-            if (!confirm('هل أنت متأكد من إزالة هذه الجهة من المفضلة؟ (سوف تبقى في القائمة الرئيسية)')) return;
-            const contactIndex = contacts.findIndex(c => c.id === contactId);
-            if (contactIndex > -1) {
-                contacts[contactIndex].isFavorite = false;
-                alert('✅ تم إزالة الجهة من المفضلة بنجاح.');
-            }
+            if (!confirm('هل أنت متأكد من إزالة هذه الجهة من المفضلة؟')) return;
+            contacts[contactIndex].isFavorite = false;
+            alert('✅ تم إزالة الجهة من المفضلة بنجاح.');
         } else {
             if (!confirm('هل أنت متأكد من حذف هذه الجهة نهائياً؟')) return;
             contacts = contacts.filter(contact => contact.id !== contactId); 
             alert('✅ تم حذف الجهة نهائياً بنجاح.');
         }
-
-        saveContacts();
-        renderContacts();
-    } 
-    
-    else if (action === 'edit') {
+    } else if (action === 'edit') {
         if (currentView !== 'home') return;
+        const contactToEdit = contacts[contactIndex];
         
-        const contactToEdit = contacts.find(contact => contact.id === contactId);
-        if (contactToEdit) {
-            // نقل البيانات إلى نموذج التعديل المنفصل
-            editNameInput.value = contactToEdit.name;
-            editPhoneInput.value = contactToEdit.phone;
-            editEmailInput.value = contactToEdit.email || ''; 
-            editJobInput.value = contactToEdit.job || '';
-            editContactIdInput.value = contactToEdit.id;
-            
-            showView('edit-view'); // الانتقال إلى صفحة التعديل
-        }
-    } 
-    
-    else if (action === 'toggle-favorite') {
-        const contactIndex = contacts.findIndex(contact => contact.id === contactId);
-        if (contactIndex > -1) {
-            contacts[contactIndex].isFavorite = !contacts[contactIndex].isFavorite;
-            saveContacts();
-            renderContacts(); 
-        }
+        editForm.elements['edit-name'].value = contactToEdit.name;
+        editForm.elements['edit-phone'].value = contactToEdit.phone;
+        editForm.elements['edit-email'].value = contactToEdit.email || ''; 
+        editForm.elements['edit-job'].value = contactToEdit.job || '';
+        editForm.elements['edit-contact-id'].value = contactToEdit.id;
+        
+        showView('edit-view');
+        return; 
+    } else if (action === 'toggle-favorite') {
+        contacts[contactIndex].isFavorite = !contacts[contactIndex].isFavorite;
     }
+    
+    saveContacts();
+    renderContacts();
 });
 
-// --- التنقل بين الصفحات ---
-navLinks.forEach(link => {
-    link.addEventListener('click', function(e) {
-        e.preventDefault();
-        const viewName = this.dataset.view;
-        if(searchInput) searchInput.value = '';
-        showView(viewName);
-    });
-});
+// --- التنقل والبحث ---
+navLinks.forEach(link => link.addEventListener('click', e => {
+    e.preventDefault();
+    if(searchInput) searchInput.value = '';
+    showView(e.target.dataset.view);
+}));
 
-// --- وظيفة البحث ---
 if (searchInput) {
-    searchInput.addEventListener('input', function() {
-        renderContacts(this.value);
-    });
+    searchInput.addEventListener('input', () => renderContacts(searchInput.value));
 }
 
-// --- تهيئة التطبيق ---
+// --- التهيئة ---
 function init() {
     contacts = getContacts(); 
-    updateCounters(); 
+    saveContacts(); // تحديث العدادات عند التحميل
     showView('home'); 
 }
 
