@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دليل الهاتف - مشروع أساسيات الويب المُحسَّن</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <a href="#" data-view="home" class="active">كل جهات الاتصال</a> |
+            <a href="#" data-view="favorites">جهات الاتصال المفضلة</a> |
+            <a href="#" data-view="about">معلومات المشروع</a>
+        </nav>
+        
+        <div class="counters">
+            <p>الإجمالي: <span id="total-count">0</span></p>
+            <p>المفضلة: <span id="favorite-count">0</span></p>
+        </div>
+        
+        <div id="home-view" class="view">
+            <h1>دليل الهاتف 📞</h1>
+
+            <form id="contact-form">
+                <input type="hidden" id="contact-id">
+                <input type="text" id="name" placeholder="الاسم" required>
+                <input type="tel" id="phone" placeholder="رقم الهاتف" required>
+                <input type="email" id="email" placeholder="البريد الإلكتروني (اختياري)"> 
+                <input type="text" id="job" placeholder="الوظيفة (اختياري)"> 
+                <button type="submit" id="submit-btn">إضافة جهة اتصال</button>
+            </form>
+
+            <hr>
+
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="ابحث بالاسم، الهاتف، الوظيفة أو البريد الإلكتروني..." aria-label="حقل البحث">
+            </div>
+
+            <h2>جهات الاتصال الحالية</h2>
+            <ul id="contact-list-home" class="contact-list">
+            </ul>
+        </div>
+
+        <div id="favorites-view" class="view hidden">
+            <h1>جهات الاتصال المفضلة ⭐️</h1>
+            <ul id="contact-list-favorites" class="contact-list">
+            </ul>
+        </div>
+        
+        <div id="about-view" class="view hidden">
+            <h1>معلومات المشروع 📋</h1>
+            <hr>
+
+            <div class="info-box">
+                <h2>دليل الهاتف</h2>
+                <p><strong>المادة:</strong> تكنولوجيا الويب</p>
+                <p><strong>التقنيات المستخدمة:</strong> HTML, CSS, JavaScript</p>
+            </div>
+
+            <h3>الإشراف الأكاديمي</h3>
+            <ul>
+                <li>تحت إشراف: <strong>د/ مروة عناني</strong></li>
+                <li>مهندس: <strong>م/ علي محمد</strong></li>
+            </ul>
+
+            <h3>👥 فريق العمل</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>الاسم</th>
+                        <th>الرقم الجامعي</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>فارس محمد عبدالسميع</td><td>231255</td></tr>
+                    <tr><td>محمود اسامه سعد محمد</td><td>231543</td></tr>
+                    <tr><td>حسن اشرف احمد علي محمد</td><td>222287</td></tr>
+                    <tr><td>محمد كرم حمدي عبد المعبود</td><td>231446</td></tr>
+                    <tr><td>احمد محمد فؤاد محمود</td><td>230573</td></tr>
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
