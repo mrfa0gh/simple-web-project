@@ -74,13 +74,13 @@ nav {
 nav a {
     text-decoration: none;
     color: #007bff;
-    padding: 8px 15px;
+    padding: 8px 10px;
     margin: 0 4px;
     border-radius: 4px;
     transition: all 0.3s;
     cursor: pointer;
     font-weight: 500;
-    font-size: 0.95em;
+    font-size: 0.9em;
 }
 
 nav a:hover {
@@ -94,7 +94,7 @@ nav a.active {
     box-shadow: 0 1px 6px rgba(0, 123, 255, 0.4);
 }
 
-#contact-form input, #contact-form button, .search-container input {
+#contact-form input, #contact-form button, #edit-form input, #edit-form button, .search-container input {
     width: 100%;
     padding: 10px;
     margin-bottom: 8px;
@@ -105,13 +105,13 @@ nav a.active {
     font-size: 0.95em;
 }
 
-#contact-form input:focus, #search-input:focus {
+#contact-form input:focus, #search-input:focus, #edit-form input:focus {
     border-color: #007bff;
     box-shadow: 0 0 6px rgba(0, 123, 255, 0.5);
     outline: none;
 }
 
-#contact-form button {
+#contact-form button, #edit-form button {
     background-color: #007bff;
     color: white;
     cursor: pointer;
@@ -120,7 +120,7 @@ nav a.active {
     letter-spacing: 0.2px;
 }
 
-#contact-form button:hover {
+#contact-form button:hover, #edit-form button:hover {
     background-color: #0056b3;
 }
 

@@ -19,17 +19,26 @@ const nameInput = document.getElementById('name');
 const phoneInput = document.getElementById('phone');
 const emailInput = document.getElementById('email'); 
 const jobInput = document.getElementById('job');
-const submitBtn = document.getElementById('submit-btn');
-const contactIdInput = document.getElementById('contact-id');
 const searchInput = document.getElementById('search-input');
 const navLinks = document.querySelectorAll('nav a');
 const totalCountElement = document.getElementById('total-count');
 const favoriteCountElement = document.getElementById('favorite-count');
 
+// عناصر نموذج التعديل المنفصلة
+const editForm = document.getElementById('edit-form');
+const editNameInput = document.getElementById('edit-name');
+const editPhoneInput = document.getElementById('edit-phone');
+const editEmailInput = document.getElementById('edit-email'); 
+const editJobInput = document.getElementById('edit-job');
+const editContactIdInput = document.getElementById('edit-contact-id');
+
+
 const views = {
     home: document.getElementById('home-view'),
     favorites: document.getElementById('favorites-view'),
-    about: document.getElementById('about-view')
+    about: document.getElementById('about-view'),
+    help: document.getElementById('help-view'), // صفحة جديدة
+    'edit-view': document.getElementById('edit-view') // صفحة جديدة
 };
 const contactListHome = document.getElementById('contact-list-home');
 const contactListFavorites = document.getElementById('contact-list-favorites');
@@ -139,6 +148,9 @@ function renderContacts(searchTerm = '') {
     });
 }
 
+// ---------------------------------------------
+// 1. الإضافة (نموذج صفحة Home)
+// ---------------------------------------------
 form.addEventListener('submit', function(e) {
     e.preventDefault(); 
 
@@ -146,42 +158,64 @@ form.addEventListener('submit', function(e) {
     const phone = phoneInput.value.trim();
     const email = emailInput.value.trim(); 
     const job = jobInput.value.trim(); 
-    const id = contactIdInput.value;
-
+    
     if (!name || !phone) {
         alert("يرجى إدخال الاسم ورقم الهاتف.");
         return;
     }
 
-    if (id) {
-        const contactIndex = contacts.findIndex(c => c.id.toString() === id);
-        if (contactIndex > -1) {
-            contacts[contactIndex].name = name;
-            contacts[contactIndex].phone = phone;
-            contacts[contactIndex].email = email; 
-            contacts[contactIndex].job = job; 
-        }
-        alert('✅ تم تعديل جهة الاتصال بنجاح!'); 
-        submitBtn.textContent = 'إضافة جهة اتصال'; 
-        contactIdInput.value = ''; 
-    } else {
-        const newContact = {
-            id: Date.now().toString(), 
-            name: name,
-            phone: phone,
-            email: email, 
-            job: job, 
-            isFavorite: false
-        };
-        contacts.push(newContact); 
-        alert('✅ تم إضافة جهة الاتصال بنجاح!'); 
-    }
+    const newContact = {
+        id: Date.now().toString(), 
+        name: name,
+        phone: phone,
+        email: email, 
+        job: job, 
+        isFavorite: false
+    };
+    contacts.push(newContact); 
+    alert('✅ تم إضافة جهة الاتصال بنجاح!'); 
 
     saveContacts(); 
     renderContacts(); 
     form.reset(); 
 });
 
+
+// ---------------------------------------------
+// 2. التعديل (نموذج صفحة Edit المنفصلة)
+// ---------------------------------------------
+editForm.addEventListener('submit', function(e) {
+    e.preventDefault(); 
+
+    const name = editNameInput.value.trim();
+    const phone = editPhoneInput.value.trim();
+    const email = editEmailInput.value.trim(); 
+    const job = editJobInput.value.trim(); 
+    const id = editContactIdInput.value;
+
+    if (!name || !phone || !id) {
+        alert("خطأ: يرجى التأكد من ملء جميع الحقول واختيار جهة اتصال.");
+        return;
+    }
+
+    const contactIndex = contacts.findIndex(c => c.id.toString() === id);
+    if (contactIndex > -1) {
+        contacts[contactIndex].name = name;
+        contacts[contactIndex].phone = phone;
+        contacts[contactIndex].email = email; 
+        contacts[contactIndex].job = job; 
+    }
+    
+    saveContacts(); 
+    alert('✅ تم حفظ التعديلات بنجاح!'); 
+    editForm.reset();
+    showView('home'); // العودة للقائمة الرئيسية بعد الحفظ
+});
+
+
+// ---------------------------------------------
+// 3. الحذف والمفضلة والتعديل (Delegation)
+// ---------------------------------------------
 document.addEventListener('click', function(e) {
     const action = e.target.dataset.action;
     const listItem = e.target.closest('.contact-list li'); 
@@ -215,12 +249,14 @@ document.addEventListener('click', function(e) {
         
         const contactToEdit = contacts.find(contact => contact.id === contactId);
         if (contactToEdit) {
-            nameInput.value = contactToEdit.name;
-            phoneInput.value = contactToEdit.phone;
-            emailInput.value = contactToEdit.email || ''; 
-            jobInput.value = contactToEdit.job || '';
-            contactIdInput.value = contactToEdit.id;
-            submitBtn.textContent = 'حفظ التعديلات'; 
+            // نقل البيانات إلى نموذج التعديل المنفصل
+            editNameInput.value = contactToEdit.name;
+            editPhoneInput.value = contactToEdit.phone;
+            editEmailInput.value = contactToEdit.email || ''; 
+            editJobInput.value = contactToEdit.job || '';
+            editContactIdInput.value = contactToEdit.id;
+            
+            showView('edit-view'); // الانتقال إلى صفحة التعديل
         }
     } 
     
@@ -234,6 +270,7 @@ document.addEventListener('click', function(e) {
     }
 });
 
+// --- التنقل بين الصفحات ---
 navLinks.forEach(link => {
     link.addEventListener('click', function(e) {
         e.preventDefault();
@@ -243,12 +280,14 @@ navLinks.forEach(link => {
     });
 });
 
+// --- وظيفة البحث ---
 if (searchInput) {
     searchInput.addEventListener('input', function() {
         renderContacts(this.value);
     });
 }
 
+// --- تهيئة التطبيق ---
 function init() {
     contacts = getContacts(); 
     updateCounters(); 
